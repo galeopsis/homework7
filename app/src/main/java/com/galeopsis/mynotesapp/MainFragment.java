@@ -29,40 +29,33 @@ public class MainFragment extends Fragment {
 
     private void initPopupMenu(View view) {
         TextView text = view.findViewById(R.id.textView);
-        text.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Activity activity = requireActivity();
-                PopupMenu popupMenu = new PopupMenu(activity, v);
-                activity.getMenuInflater().inflate(R.menu.popup, popupMenu.getMenu());
-                Menu menu = popupMenu.getMenu();
-                menu.findItem(R.id.item2_popup).setVisible(false);
-                menu.add(0, 123456, 12, R.string.new_menu_item_added);
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        int id = item.getItemId();
-                        switch (id) {
-                            case R.id.item1_popup:
-                                Toast.makeText(getContext(), "Chosen popup item 1", Toast.LENGTH_SHORT).show();
-                                return true;
-                            case R.id.item2_popup:
-                                Toast.makeText(getContext(), "Chosen popup item 2", Toast.LENGTH_SHORT).show();
-                                return true;
-                            case 123456:
-                                Toast.makeText(getContext(), "Chosen new item added", Toast.LENGTH_SHORT).show();
-                                return true;
-                        }
-                        return true;
-                    }
-                });
-                popupMenu.show();
-            }
+        text.setOnClickListener(v -> {
+            Activity activity = requireActivity();
+            PopupMenu popupMenu = new PopupMenu(activity, v);
+            activity.getMenuInflater().inflate(R.menu.popup, popupMenu.getMenu());
+            Menu menu = popupMenu.getMenu();
+            menu.findItem(R.id.item2_popup).setVisible(false);
+            menu.add(0, 123456, 12, R.string.new_menu_item_added);
+            popupMenu.setOnMenuItemClickListener(item -> {
+                int id = item.getItemId();
+                if (id == R.id.item1_popup) {
+                    Toast.makeText(getContext(), "Chosen popup item 1", Toast.LENGTH_SHORT).show();
+                    return true;
+                } else if (id == R.id.item2_popup) {
+                    Toast.makeText(getContext(), "Chosen popup item 2", Toast.LENGTH_SHORT).show();
+                    return true;
+                } else if (id == 123456) {
+                    Toast.makeText(getContext(), "Chosen new item added", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                return true;
+            });
+            popupMenu.show();
         });
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.main_fragment, menu);
     }
 

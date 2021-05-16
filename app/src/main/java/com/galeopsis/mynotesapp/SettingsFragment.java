@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.RadioButton;
 
 import androidx.annotation.Nullable;
@@ -35,24 +34,18 @@ public class SettingsFragment extends Fragment {
     private void initRadioReplace(View view) {
         RadioButton radioButtonReplace = view.findViewById(R.id.radioButtonReplace);
         radioButtonReplace.setChecked(!Settings.IsAddFragment);
-        radioButtonReplace.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Settings.IsAddFragment = !isChecked;
-                writeSettings();
-            }
+        radioButtonReplace.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            Settings.IsAddFragment = !isChecked;
+            writeSettings();
         });
     }
 
     private void initRadioAdd(View view) {
         RadioButton radioButtonAdd = view.findViewById(R.id.radioButtonAdd);
         radioButtonAdd.setChecked(Settings.IsAddFragment);
-        radioButtonAdd.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Settings.IsAddFragment = isChecked;
-                writeSettings();
-            }
+        radioButtonAdd.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            Settings.IsAddFragment = isChecked;
+            writeSettings();
         });
     }
 
@@ -61,36 +54,27 @@ public class SettingsFragment extends Fragment {
         // По функционалу очень похож на CheckBox, но имеет другой дизайн
         SwitchCompat switchUseBackStack = view.findViewById(R.id.switchBackStack);
         switchUseBackStack.setChecked(Settings.IsBackStack);
-        switchUseBackStack.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Settings.IsBackStack = isChecked;
-                writeSettings();
-            }
+        switchUseBackStack.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            Settings.IsBackStack = isChecked;
+            writeSettings();
         });
     }
 
     private void initSwitchBackAsRemove(View view) {
         SwitchCompat switchBackAsRemove = view.findViewById(R.id.switchBackAsRemove);
         switchBackAsRemove.setChecked(Settings.IsBackAsRemove);
-        switchBackAsRemove.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Settings.IsBackAsRemove = isChecked;
-                writeSettings();
-            }
+        switchBackAsRemove.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            Settings.IsBackAsRemove = isChecked;
+            writeSettings();
         });
     }
 
     private void initSwitchDeleteBeforeAdd(View view) {
         SwitchCompat switchDeleteBeforeAdd = view.findViewById(R.id.switchDeleteBeforeAdd);
         switchDeleteBeforeAdd.setChecked(Settings.IsDeleteBeforeAdd);
-        switchDeleteBeforeAdd.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Settings.IsDeleteBeforeAdd = isChecked;
-                writeSettings();
-            }
+        switchDeleteBeforeAdd.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            Settings.IsDeleteBeforeAdd = isChecked;
+            writeSettings();
         });
     }
 

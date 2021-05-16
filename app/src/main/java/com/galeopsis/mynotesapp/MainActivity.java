@@ -4,11 +4,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -54,16 +52,13 @@ public class MainActivity extends AppCompatActivity {
 
         // Обработка навигационного меню
         NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int id = item.getItemId();
-                if (navigateFragment(id)) {
-                    drawer.closeDrawer(GravityCompat.START);
-                    return true;
-                }
-                return false;
+        navigationView.setNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (navigateFragment(id)) {
+                drawer.closeDrawer(GravityCompat.START);
+                return true;
             }
+            return false;
         });
     }
 
@@ -84,16 +79,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean navigateFragment(int id) {
-        switch (id) {
-            case R.id.action_settings:
-                addFragment(new SettingsFragment());
-                return true;
-            case R.id.action_main:
-                addFragment(new MainFragment());
-                return true;
-            case R.id.action_favorite:
-                addFragment(new FavoriteFragment());
-                return true;
+        if (id == R.id.action_settings) {
+            addFragment(new SettingsFragment());
+            return true;
+        } else if (id == R.id.action_main) {
+            addFragment(new MainFragment());
+            return true;
+        } else if (id == R.id.action_favorite) {
+            addFragment(new FavoriteFragment());
+            return true;
         }
         return false;
     }
@@ -124,50 +118,32 @@ public class MainActivity extends AppCompatActivity {
 
     private void initButtonBack() {
         Button buttonBack = findViewById(R.id.buttonBack);
-        buttonBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                if (Settings.IsBackAsRemove) {
-                    Fragment fragment = getVisibleFragment(fragmentManager);
-                    if (fragment != null) {
-                        fragmentManager.beginTransaction().remove(fragment).commit();
-                    }
-                } else {
-                    fragmentManager.popBackStack();
+        buttonBack.setOnClickListener(v -> {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            if (Settings.IsBackAsRemove) {
+                Fragment fragment = getVisibleFragment(fragmentManager);
+                if (fragment != null) {
+                    fragmentManager.beginTransaction().remove(fragment).commit();
                 }
+            } else {
+                fragmentManager.popBackStack();
             }
         });
     }
 
     private void initButtonSettings() {
         Button buttonSettings = findViewById(R.id.buttonSettings);
-        buttonSettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addFragment(new SettingsFragment());
-            }
-        });
+        buttonSettings.setOnClickListener(v -> addFragment(new SettingsFragment()));
     }
 
     private void initButtonFavorite() {
         Button buttonFavorite = findViewById(R.id.buttonFavorite);
-        buttonFavorite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addFragment(new FavoriteFragment());
-            }
-        });
+        buttonFavorite.setOnClickListener(v -> addFragment(new FavoriteFragment()));
     }
 
     private void initButtonMain() {
         Button buttonMain = findViewById(R.id.buttonMain);
-        buttonMain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addFragment(new MainFragment());
-            }
-        });
+        buttonMain.setOnClickListener(v -> addFragment(new MainFragment()));
     }
 
     private Fragment getVisibleFragment(FragmentManager fragmentManager) {
